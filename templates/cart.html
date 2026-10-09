@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Your Shopping Cart</h1>
+        <hr>
+        
+        <ul class="list-group mb-4 w-50">
+            {% for item in cart %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <h5>{{ item.product.name }}</h5>
+                <span>
+                    <span class="badge bg-primary rounded-pill me-3">Qty: {{ item.quantity }}</span>
+                    <strong>${{ item.price * item.quantity }}</strong>
+                </span>
+            </li>
+            {% endfor %}
+        </ul>
+        
+        <div class="d-flex w-50 justify-content-between">
+            <a href="/" class="btn btn-outline-secondary">Keep Shopping</a>
+            
+            <form action="/checkout" method="POST">
+                <button type="submit" class="btn btn-success">Complete Purchase</button>
+            </form>
+        </div>
+        
+    </div>
+</body>
+</html>

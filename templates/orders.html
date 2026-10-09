@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Your Order History</h1>
+        <hr>
+        
+        {% if not orders %}
+            <p class="text-muted fs-4">You haven't placed any orders yet!</p>
+            <a href="/" class="btn btn-primary mt-3">Start Shopping</a>
+        {% else %}
+        
+            <ul class="list-group mb-4 w-75 shadow-sm">
+                {% for order in orders %}
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                    <div>
+                        <h4 class="mb-1">{{ order.product.name }}</h4>
+                        <small class="text-muted">Ordered on: {{ order.created_at.strftime('%B %d, %Y at %I:%M %p') }}</small>
+                    </div>
+                    <span>
+                        <span class="badge bg-secondary rounded-pill me-3 fs-6">Qty: {{ order.quantity }}</span>
+                        <strong class="text-success fs-5">${{ order.total_price }}</strong>
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+            <a href="/" class="btn btn-outline-secondary">← Back to Store</a>
+            
+        {% endif %}
+    </div>
+</body>
+</html>

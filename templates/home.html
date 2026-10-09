@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">  
+
+</head>
+
+<body>
+
+    <div class="container">
+        <header
+            class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+            <div class="col-md-3 mb-2 mb-md-0">
+                <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+                    <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap">
+                        <use xlink:href="#bootstrap"></use>
+                    </svg>
+                </a>
+            </div>
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <li>
+                    <a href="#" class="nav-link px-2 link-secondary">Home</a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link px-2">Features</a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link px-2">Pricing</a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link px-2">FAQs</a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link px-2">About</a>
+                </li>
+            </ul>
+            <div class="col-md-3 text-end">
+                {% if 'user_id' in session %}
+                <p class="d-inline me-3">Welcome, {{ session.get('user_name') }}!</p>
+                <a href="/cart" class="btn btn-outline-dark me-2"><i class="bi bi-cart3"></i></a>
+                <a href="/orders" class="btn btn-outline-info me-2"><i class="bi bi-box-seam"></i> Orders</a>
+                {% if session.get('role') == 'admin' %}
+                <a href="/products"><button type="button" class="btn btn-outline-success me-2">Add
+                        Product</button></a>
+                {% endif %}
+                <a href="/auth/logout"><button type="button" class="btn btn-outline-danger">Logout</button></a>
+                {% else %}
+                <a href="/auth/login"><button type="button" class="btn btn-outline-primary me-2">Login</button></a>
+                <a href="/auth/register"><button type="button" class="btn btn-primary">Sign up</button></a>
+                {% endif %}
+
+            </div>
+        </header>
+    </div>
+    <div class="container mt-5">
+        <h2>Our Products</h2>
+        <div class="row mt-4">
+            
+            {% for product in all_products %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <a href="/products/{{ product.id }}">
+                    <img src="{{ product.image_url }}" class="card-img-top" height="200" style="object-fit: cover;">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text text-muted">{{ product.description }}</p>
+                        <h4 class="card-text text-primary">${{ product.price }}</h4>
+                        {% if 'user_id' in session %}
+                        <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST">
+                            <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" class="form-control mb-2">
+                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        </form>
+                        {% else %}
+                        <a href="/auth/login" class="btn btn-primary">Login to Buy</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}            
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

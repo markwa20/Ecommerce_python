@@ -1,0 +1,1 @@
+$ docker run --name ecommerce-db -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=secret -e POSTGRES_DB=ecommerce -p 5432:5432 -d postgres
