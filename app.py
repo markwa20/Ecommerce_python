@@ -15,8 +15,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://admin:secret@localhost:5432/ecommerce'
-app.config['SECRET_KEY'] = 'some_super_secret_string'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'postgresql+psycopg2://admin:secret@localhost:5432/ecommerce')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'some_super_secret_string')
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
